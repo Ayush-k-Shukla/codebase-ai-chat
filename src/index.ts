@@ -1,8 +1,9 @@
 import { chunkCode } from './chunker/code-chunker.js';
-import { indexChunks } from './embedder/indexer.js';
 import { scanRepo } from './scanner/repo-scanner.js';
+import { searchSimilarChunks } from './vector/search.js';
 
 const repoPath = process.argv[2];
+const question = process.argv[3];
 
 if (!repoPath) {
   console.error('Please provide repo path');
@@ -15,8 +16,12 @@ console.log(`Scanned ${files.length} source files`);
 const chunks = await chunkCode(files);
 console.log(`Chunked ${chunks.length} source files`);
 
-await indexChunks(chunks);
-console.log('Embedding done and Vector store created');
+// running only once when file changes or inital run
+// await indexChunks(chunks);
+// console.log('Embedding done and Vector store created');
 
-// console.log(chunks[0]);
-// console.log(files[0]); // preview first
+if (question) {
+  const results = await searchSimilarChunks(question);
+  console.log('Top matches:');
+  results.forEach((r) => console.log(`- ${r.content} (${r.filePath})`));
+}
