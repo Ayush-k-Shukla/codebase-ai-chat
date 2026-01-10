@@ -10,3 +10,10 @@ export interface CodeChunk {
   language: 'js' | 'ts' | 'java';
   content: string;
 }
+
+export interface EmbeddedChunk {
+  id: string;
+  filePath: string;
+  content: string;
+  embedding: number[];
+}
