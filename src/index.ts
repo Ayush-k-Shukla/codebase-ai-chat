@@ -1,4 +1,5 @@
 import { chunkCode } from './chunker/code-chunker.js';
+import { answerQuestion } from './qa/ai-answer.js';
 import { scanRepo } from './scanner/repo-scanner.js';
 import { searchSimilarChunks } from './vector/search.js';
 
@@ -21,7 +22,12 @@ console.log(`Chunked ${chunks.length} source files`);
 // console.log('Embedding done and Vector store created');
 
 if (question) {
-  const results = await searchSimilarChunks(question);
-  console.log('Top matches:');
-  results.forEach((r) => console.log(`- ${r.content} (${r.filePath})`));
+  const relevantChunks = await searchSimilarChunks(question, 2);
+  console.log('Top matches:', relevantChunks.length);
+
+  relevantChunks.map((r) => console.log(r.content));
+
+  const answer = await answerQuestion(question, relevantChunks);
+  console.log('\n🧠 Answer:\n');
+  console.log(answer);
 }

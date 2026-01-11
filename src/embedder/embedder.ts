@@ -1,9 +1,4 @@
-import { GoogleGenAI } from '@google/genai';
-
-import 'dotenv/config';
-
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const genai = new GoogleGenAI({ apiKey: GEMINI_API_KEY! });
+import { genai } from '../ai/gen-ai.js';
 
 export const embedText = async (text: string): Promise<number[]> => {
   const result = await genai.models.embedContent({
