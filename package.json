@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "tsx src/index.ts",
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc --outDir dist --rootDir src",
+    "prepare": "npm run build",
+    "ask": "node dist/cli/ask.js"
   },
   "keywords": [],
   "author": "",
@@ -14,10 +17,14 @@
   "dependencies": {
     "@google/genai": "^1.35.0",
     "code-chunk": "^0.1.12",
+    "commander": "^14.0.2",
     "compute-cosine-similarity": "^1.1.0",
     "dotenv": "^17.2.3",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
+  },
+  "bin": {
+    "ask": "dist/cli/ask.js"
   },
   "devDependencies": {
     "@types/node": "^25.0.3"
